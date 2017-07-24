@@ -65,3 +65,30 @@ def parse_table(table_html):
         
 tbl_data = parse_table(tbls_html[0])
 print( tbl_data[0] )
+
+def merge_table_data(tables_html):
+    '''Merge the data from the separate tables into one data structure.
+    Returns a list of dictionaries where each dict represents a row of
+    data values in the new table and the dict keys are the column names.'''
+        
+    tables_data = [ parse_table(t) for t in tables_html ]
+    grouped_data = []
+    # loop over the rows of each table in tables_data
+    for j in range( len(tables_data[0]) ):
+        # for each row of each table, put the relevant dicts into a single list
+        row_dicts = [ tables_data[i][j] for i in range(len(tables_data)) ]
+        grouped_data.append(row_dicts)
+    
+    # now for each list in grouped_data, merge the dicts into a single dict
+    merged_data = []
+    for row in grouped_data:
+        result = {}
+        # merge the dictionaries in each row
+        for d in row:
+            result.update(d)
+        merged_data.append(result)
+        
+    return merged_data
+    
+tbls_data = merge_table_data(tbls_html)
+#pprint(tbls_data)
