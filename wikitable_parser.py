@@ -66,6 +66,7 @@ def parse_table(table_html):
 tbl_data = parse_table(tbls_html[0])
 print( tbl_data[0] )
 
+
 def merge_table_data(tables_html):
     '''Merge the data from the separate tables into one data structure.
     Returns a list of dictionaries where each dict represents a row of
@@ -91,4 +92,20 @@ def merge_table_data(tables_html):
     return merged_data
     
 tbls_data = merge_table_data(tbls_html)
-#pprint(tbls_data)
+
+def make_dataframe(data_dict):
+
+    df = pd.DataFrame.from_dict(tbls_data)
+
+    # move the country column to the front and rename it 'country/territory'
+    countries = df['Country (or dependent territory)']
+    df.drop(labels = ['Country (or dependent territory)'], axis = 1, inplace = True)
+    df.insert(0, 'country/territory', countries)
+
+    # set the index to be the 'country/territory' column
+    df.set_index('country/territory', inplace = True)
+    
+    return df
+
+df = make_dataframe(tbls_data)
+print( df.head() )
