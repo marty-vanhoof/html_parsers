@@ -17,8 +17,6 @@ def get_table_html(url):
     
     return tables
     
-tbls_html = get_table_html(URL)
-
 def coerce_to_int(s):
     '''Coerce string to integer.'''
     
@@ -63,10 +61,6 @@ def parse_table(table_html):
         
     return table_data
         
-tbl_data = parse_table(tbls_html[0])
-print( tbl_data[0] )
-
-
 def merge_table_data(tables_html):
     '''Merge the data from the separate tables into one data structure.
     Returns a list of dictionaries where each dict represents a row of
@@ -91,11 +85,9 @@ def merge_table_data(tables_html):
         
     return merged_data
     
-tbls_data = merge_table_data(tbls_html)
+def make_dataframe(tables_data):
 
-def make_dataframe(data_dict):
-
-    df = pd.DataFrame.from_dict(tbls_data)
+    df = pd.DataFrame.from_dict(tables_data)
 
     # move the country column to the front and rename it 'country/territory'
     countries = df['Country (or dependent territory)']
@@ -107,5 +99,12 @@ def make_dataframe(data_dict):
     
     return df
 
-df = make_dataframe(tbls_data)
+def main():    
+    tbls_html = get_table_html(URL)
+    tbls_data = merge_table_data(tbls_html)
+    df = make_dataframe(tbls_data)
+    return df
+
+# check whether script works properly
+df = main()
 print( df.head() )
