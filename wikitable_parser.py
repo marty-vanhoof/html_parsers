@@ -1,6 +1,5 @@
 from collections import defaultdict
 from bs4 import BeautifulSoup
-from pprint import pprint
 import pandas as pd
 import requests
 
