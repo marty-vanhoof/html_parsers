@@ -6,7 +6,7 @@ def continue_crawl(search_history, target_url):
     if search_history[-1] == target_url:
         print("Target article found!")
         return False
-    elif len(search_history) > 25:
+    elif len(search_history) > 50:
         print("The search is going on too long; aborting search!")
         return False
     elif len(search_history) != len(set(search_history)):
