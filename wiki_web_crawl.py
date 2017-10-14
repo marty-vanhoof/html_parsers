@@ -28,8 +28,15 @@ while keep_crawling(article_history, target_url):
     html = r.text
     soup = BeautifulSoup(html, 'html.parser')
     
-    # get the first link from the article
+    # list of <a> tags within the first paragraph
     a_tags = soup.p.find_all('a')
-    first_link = 'https://en.wikipedia.org' + a_tags[0].get('href') 
-    print(first_link)
+    if a_tags:
+        # if the list if non-empty, get the first link and append it to article_history
+        first_link = 'https://en.wikipedia.org' + a_tags[0].get('href')
+        print(first_link)
+        article_history.append(first_link)
+        print(article_history)
+        # delay for 2 seconds so we don't overload wikipedia with requests
+        time.sleep(2)
+    
     break
